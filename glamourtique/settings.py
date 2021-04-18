@@ -26,7 +26,7 @@ SECRET_KEY = 'k1^qzx!%pn(1rg_w5$%9birdk8ub34h_e4o-j^s#_f(pryv_-1'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['https://glamourtique.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
