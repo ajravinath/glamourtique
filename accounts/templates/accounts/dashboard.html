@@ -1,0 +1,54 @@
+{% extends 'accounts/main.html' %} 
+{% block content %} 
+{% include 'accounts/status.html' %}
+<br />
+<div class="row">
+  <div class="col">
+    <hr />
+    <div class="card card-body">
+      <div class="d-flex justify-content-between">
+        <h5 class="card-title">Orders</h5>
+        <a class="btn btn-primary mb-2" href="{% url 'create_order' %}">Create Order</a>
+      </div>
+    <div class="mt-2 mb-4">
+      <form method="GET">
+      <div class="d-flex bg-light rounded px-4 align-items-center">
+        {{orderFilters.form.as_p}}
+        <button class="btn btn-sm btn-primary">Search</button>
+      </div>
+    </form>
+    </div>
+    <div class="mt-2">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Product</th>
+          <th>Date Ordered</th>
+          <th>Note</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in page.object_list %}
+          <tr>
+            <td>
+              {{ order.products.all | join:", "}}
+            </td>
+            <td>{{ order.date_created }}</td>
+            <td>{{ order.note }}</td>
+            <td>{{ order.status }}</td>
+            <td class="d-flex justify-content-end">
+              <a class="btn btn-sm btn-info mr-2" href="{% url 'update_order' order.id %}">Update</a>
+              <a class="btn btn-sm btn-danger mr-2" href="{% url 'delete_order' order.id %}">Remove</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+      </table>
+      {% include 'accounts/paginator.html' %}
+    </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

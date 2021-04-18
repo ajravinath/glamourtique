@@ -1,0 +1,66 @@
+
+{%extends 'accounts/body.html'%}
+{% load static %}
+{% load widget_tweaks %}
+{% block body %}
+<div class="my-4 container-fluid d-flex justify-content-center">
+    <div class="card col-md-7">
+        <img id="logo-banner" src="{% static '/images/logo.jpg' %}" class="mt-4 border border-success logo-banner rounded mx-auto d-block" alt="logo">
+
+        <div class="card-body">
+        <h1 class="card-title">Login</h1>
+
+
+        <form method="post" novalidate action="">
+            {% csrf_token %}
+          
+            {% for hidden_field in form.hidden_fields %}
+              {{ hidden_field }}
+            {% endfor %}
+          
+            {% if form.non_field_errors %}
+              <div class="alert alert-danger" role="alert">
+                {% for error in form.non_field_errors %}
+                  {{ error }}
+                {% endfor %}
+              </div>
+            {% endif %}
+          
+            {% for field in form.visible_fields %}
+              <div class="form-group">
+                {{ field.label_tag }}
+          
+                {% if form.is_bound %}
+                  {% if field.errors %}
+                    {% render_field field class="form-control is-invalid" %}
+                    {% for error in field.errors %}
+                      <div class="invalid-feedback">
+                        {{ error }}
+                      </div>
+                    {% endfor %}
+                  {% else %}
+                    {% render_field field class="form-control is-valid" %}
+                  {% endif %}
+                {% else %}
+                  {% render_field field class="form-control" %}
+                {% endif %}
+          
+                {% if field.help_text %}
+                  <small class="form-text text-muted">{{ field.help_text }}</small>
+                {% endif %}
+              </div>
+            {% endfor %}
+          
+            <button type="submit" class="mb-3 btn btn-primary">Submit</button>
+          </form>
+
+          <div class="my-2 d-flex justify-content-between">
+            <a href="{% url 'register' %}">Sign Up</a>
+            <a href="{% url 'reset_password' %}">Forgot password?</a>
+          </div>
+          <!-- {% for message in messages %}
+          <div class="alert alert-success">{{message}}</div>
+          {% endfor %} -->
+</div>
+</div>  
+{% endblock %}

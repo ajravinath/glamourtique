@@ -1,0 +1,44 @@
+{% load static %}
+
+<style>
+.name{
+  color:white;
+}
+.logout{
+  color:white
+}
+</style>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <img id="logo" src="{% static '/images/logo.jpg' %}"/>
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarNav"
+    aria-controls="navbarNav"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    {% with request.resolver_match.url_name as url_name %}
+    <ul class="navbar-nav">
+      <li class="nav-item {% if url_name == 'home' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'home' %}"
+          >Home <span class="sr-only">(current)</span></a
+        >
+      </li>
+      <li class="nav-item {% if url_name == 'products' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'products' %}">Products</a>
+      </li>
+      <li class="nav-item {% if url_name == 'customer_list' or url_name == 'customer' %}active{% endif %}">
+        <a class="nav-link" href="{% url 'customer_list' %}">Customers</a>
+      </li>
+    </ul>
+    
+    {% endwith %}
+  </div>
+  <span class="name mx-4">{{request.user}}</span>
+  <span><a href="{% url 'logout' %}" class="btn btn-sm btn-outline-secondary logout" type="button">Logout</a></span>
+</nav>

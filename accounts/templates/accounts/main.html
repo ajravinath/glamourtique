@@ -1,0 +1,12 @@
+{% extends 'accounts/body.html' %}
+{% load static %}
+{% block body %}
+    {% include 'accounts/navbar.html' %}
+    <div class="mt-4 container-fluid">
+    {% block content %} {% endblock %}
+</div>
+    <hr />
+    <footer>
+      <h1>Footer</h1>
+    </footer>
+{% endblock %}

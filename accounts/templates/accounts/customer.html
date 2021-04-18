@@ -1,0 +1,92 @@
+{%  extends 'accounts/main.html' %}
+
+{% block content %}
+
+	<br>
+
+<div class="row">
+	<div class="col-md">
+		<div class="card card-body">
+			<h5>Customer:</h5>
+			<hr>
+			<a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'update_customer' customer.id %}">Update Customer</a>
+			<a class="btn btn-outline-danger  btn-sm btn-block" href="{% url 'delete_customer' customer.id %}">Delete Customer</a>
+
+		</div>
+	</div>
+
+	<div class="col-md">
+		<div class="card card-body">
+			<h5>Contact Information</h5>
+			<hr>
+			<p>Email: {{customer.name}}</p>
+			<p>Phone: {{customer.phone}}</p>
+		</div>
+	</div>
+
+	<div class="col-md">
+		<div class="card card-body">
+			<h5>Total Orders</h5>
+			<hr>
+			<h1 style="text-align: center;padding: 10px">
+				{{customer.order_set.all.count}}
+			</h1>
+		</div>
+	</div>
+</div>
+
+
+<br>
+<div class="row">
+	<div class="col">
+		<div class="card card-body">
+			<form method="get">
+
+		    <button class="btn btn-primary" type="submit">Search</button>
+		  </form>
+		</div>
+	</div>
+	
+</div>
+<br>
+
+<div class="row">
+	<div class="col-md">
+		<div class="card card-body">
+			<table class="table table-sm">
+				<thead>
+				<tr>
+					<th>Products</th>
+					<th>Categories</th>
+					<th>Date Ordered</th>
+					<th>Note</th>
+					<th>Status</th>
+					<th></th>
+				</tr>
+			</thead>
+				<tbody>
+					{% for order in page.object_list %}
+					  <tr>
+						  <td>
+							  {{ order.products.all | join:", "}}
+							</td>
+							<td>
+								{{order.get_categories| join:", "}}
+							</td>
+							<td>{{ order.date_created }}</td>
+						<td>{{ order.note }}</td>
+						<td>{{ order.status }}</td>
+						<td class="d-flex justify-content-end">
+							<a class="btn btn-sm btn-info mr-2" href="{% url 'update_order' order.id %}">Update</a>
+							<a class="btn btn-sm btn-danger mr-2" href="{% url 'delete_order' order.id %}">Remove</a>
+						  </td>
+					  </tr>
+					{% endfor %}
+				  </tbody>
+			</table>
+			{% include 'accounts/paginator.html' %}
+		</div>
+	</div>
+</div>
+
+{% endblock %}

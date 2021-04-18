@@ -1,0 +1,38 @@
+{% extends 'accounts/main.html' %} 
+{% block content %} 
+
+<div class="row"><div class="col">
+  <div class="card card-body">
+    <div class="d-flex justify-content-between">
+      <h5 class="card-title">Customers</h5>
+      <a class="btn btn-primary mb-2" href="{% url 'create_customer' %}">Create Customer</a>
+    </div>
+    <div class="mt-2">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Customer</th>
+          <th>Phone</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for customer in page.object_list %}
+          <tr>
+            <td>
+              <a href="{% url 'customer' customer.id %}">{{ customer.name }}</a>
+            </td>
+            <td>{{ customer.phone }}</td>
+            <td class="d-flex justify-content-end">
+              <a class="btn btn-sm btn-info mr-2" href="{% url 'update_customer' customer.id %}">Update</a>
+              <a class="btn btn-sm btn-danger mr-2" href="{% url 'delete_customer' customer.id %}">Remove</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+      </table>
+      {% include 'accounts/paginator.html' %}
+    </div>
+  </div>
+</div>
+{% endblock %}

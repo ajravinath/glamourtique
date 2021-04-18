@@ -1,0 +1,23 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+requests = "*"
+django = "*"
+autopep8 = "*"
+pep8 = "*"
+django-filter = "*"
+django-widget-tweaks = "*"
+pillow = "*"
+django-safedelete = "*"
+psycopg2 = "*"
+gunicorn = "*"
+whitenoise = "*"
+django-heroku = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.8"
