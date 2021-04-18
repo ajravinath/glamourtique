@@ -1,4 +1,4 @@
-import django_heroku
+# import django_heroku
 """
 Django settings for glamourtique project.
 
@@ -161,4 +161,4 @@ EMAIL_HOST_PASSWORD = 'gl4m0ur71qu3snr'
 
 
 # Activate Django-Heroku.
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
