@@ -31,8 +31,8 @@ SECRET_KEY = env.str('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', default=False)
 
-# ALLOWED_HOSTS = ['glamourtiquelk.herokuapp.com', '127.0.0.1']
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['glamourtiquelk.herokuapp.com', '127.0.0.1']
+# ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -47,15 +47,16 @@ INSTALLED_APPS = [
 
     'accounts.apps.AccountsConfig',
 
+    'storages',
     'django_filters',
     'widget_tweaks',
-    'safedelete'
+    'safedelete',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
 
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -103,8 +104,8 @@ DATABASES = {
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -159,24 +160,42 @@ USE_TZ = True
 SAFE_DELETE_INTERPRET_UNDELETED_OBJECTS_AS_CREATED = True
 #
 
+print('tttttttttttt', env.bool('USE_S3', default=False))
+# S3 bucket settings
+
+if(env.bool('USE_S3', default=False)):
+    AWS_ACCESS_KEY_ID = env.str('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = env.str('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = env.str('AWS_STORAGE_BUCKET_NAME')
+    AWS_DEFAULT_ACL = None
+    AWS_S3_CUSTOM_DOMAIN = env.str('AWS_S3_CUSTOM_DOMAIN')
+    AWS_S3_ENDPOINT_URL = env.str('AWS_S3_ENDPOINT_URL')
+    AWS_S3_FILE_OVERWRITE = env.bool('AWS_S3_FILE_OVERWRITE')
+    AWS_STATIC_LOCATION = env.str('AWS_STATIC_LOCATION')
+
+    STATIC_URL = "https://%s/" % (AWS_S3_CUSTOM_DOMAIN)
+    STATICFILES_STORAGE = env.str('STATICFILES_STORAGE')
+    DEFAULT_FILE_STORAGE = env.str('DEFAULT_FILE_STORAGE')
+else:
+    STATIC_URL = '/static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_ROOT = os.path.normpath(os.path.join(BASE_DIR, 'staticfiles'))
-STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+# STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
+# MEDIA_URL = '/images/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
-MEDIA_URL = '/images/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
 # SMPT Configuration
 EMAIL_BACKEND = env.str('EMAIL_BACKEND')
 EMAIL_HOST = env.str('EMAIL_HOST', default='')
-EMAIL_PORT = env.str('EMAIL_PORT', default=587)
-EMAIL_USE_TLS = env.str('EMAIL_USE_TLS', default=True)
+EMAIL_PORT = env.int('EMAIL_PORT', default=587)
+EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=True)
 EMAIL_HOST_USER = env.str('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD', default='')
 
-django_heroku.settings(locals())
+django_heroku.settings(locals(), staticfiles=False)

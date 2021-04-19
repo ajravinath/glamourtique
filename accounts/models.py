@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 
 from safedelete.models import SafeDeleteModel
 from safedelete.models import SOFT_DELETE
+
 # Create your models here.
 
 

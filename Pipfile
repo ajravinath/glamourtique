@@ -19,8 +19,10 @@ django-heroku = "*"
 dj-database-url = "*"
 django-environ = "*"
 psycopg2-binary = "*"
+django-storages = "*"
+boto3 = "*"
 
 [dev-packages]
-
+    
 [requires]
 python_version = "3.8"
