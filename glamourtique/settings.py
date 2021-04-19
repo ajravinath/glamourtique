@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/2.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
+import django_heroku
 import environ
 
 import dj_database_url
@@ -177,3 +178,5 @@ EMAIL_PORT = env.str('EMAIL_PORT', default=587)
 EMAIL_USE_TLS = env.str('EMAIL_USE_TLS', default=True)
 EMAIL_HOST_USER = env.str('EMAIL_HOST_USER', default='')
 EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD', default='')
+
+django_heroku.settings(locals())
