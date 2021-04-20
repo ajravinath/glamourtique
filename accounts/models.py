@@ -42,17 +42,20 @@ class Product(SafeDeleteModel):
     tags = models.ManyToManyField(Tag)
 
     def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        # print('ccccccccccccccccccccccccccccccccccccccccccccc', self.image)
-        if self.image:
-            img = Image.open(self.image.path)
-            '''
-            resize to 300x300 if larger
-            '''
-            if(img.height > 300 or img.width > 300):
-                output_size = (300, 300)
-                img.thumbnail(output_size)
-                img.save(self.image.path)
+        try:
+            super().save(*args, **kwargs)
+            # print('ccccccccccccccccccccccccccccccccccccccccccccc', self.image)
+            if self.image:
+                img = Image.open(self.image.path)
+                '''
+                resize to 300x300 if larger
+                '''
+                if(img.height > 300 or img.width > 300):
+                    output_size = (300, 300)
+                    img.thumbnail(output_size)
+                    img.save(self.image.path)
+        except Exception as e:
+            logger.error('Failed to upload to ftp: ' + str(e))
 
     def __str__(self):
         return self.name
