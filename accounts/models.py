@@ -44,7 +44,6 @@ class Product(SafeDeleteModel):
     def save(self, *args, **kwargs):
         try:
             super().save(*args, **kwargs)
-            # print('ccccccccccccccccccccccccccccccccccccccccccccc', self.image)
             if self.image:
                 img = Image.open(self.image.path)
                 '''
@@ -53,7 +52,7 @@ class Product(SafeDeleteModel):
                 if(img.height > 300 or img.width > 300):
                     output_size = (300, 300)
                     img.thumbnail(output_size)
-                    img.save(self.image.path)
+                    img.save(self.image.name)
         except Exception as e:
             print('Failed to upload to ftp: ' + str(e))
             logger.error('Failed to upload to ftp: ' + str(e))
