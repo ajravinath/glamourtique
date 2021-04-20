@@ -140,7 +140,7 @@ def createOrder(request):
     form = OrderForm()
 
     if request.method == 'POST':
-        print('Printing form: ', request.POST)
+        # print('Printing form: ', request.POST)
         form = OrderForm(request.POST)
         if form.is_valid():
             form.save()
@@ -157,7 +157,7 @@ def updateOrder(request, pk):
     form = OrderForm(instance=order)
 
     if request.method == 'POST':
-        print('Printing form: ', request.POST)
+        # print('Printing form: ', request.POST)
         form = OrderForm(request.POST, instance=order)
         if form.is_valid():
             form.save()
@@ -188,8 +188,8 @@ def createProduct(request):
     form = ProductForm()
 
     if request.method == 'POST':
-        print('Printing form: ', request.POST)
-        form = ProductForm(request.POST)
+        # print('Printing form: ', request.POST)
+        form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('/products/')
@@ -205,7 +205,7 @@ def updateProduct(request, pk):
     form = ProductForm(instance=product)
 
     if request.method == 'POST':
-        print('Printing form: ', request.POST)
+        # print('Printing form: ', request.POST)
         form = ProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
             form.save()
@@ -237,7 +237,7 @@ def createCustomer(request):
     form = CustomerForm()
 
     if request.method == 'POST':
-        print('Printing form: ', request.POST)
+        # print('Printing form: ', request.POST)
         form = CustomerForm(request.POST)
         if form.is_valid():
             form.save()
@@ -254,7 +254,7 @@ def updateCustomer(request, pk):
     form = CustomerForm(instance=customer)
 
     if request.method == 'POST':
-        print('Printing form: ', request.POST)
+        # print('Printing form: ', request.POST)
         form = CustomerForm(request.POST, instance=customer)
         if form.is_valid():
             form.save()

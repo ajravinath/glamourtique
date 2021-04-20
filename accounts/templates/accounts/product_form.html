@@ -29,8 +29,12 @@
                 {% endif %}
               
                 {% for field in form.visible_fields %}
-                  {% if field.name == 'image' and product.image.file is not None %}
+                  {% if field.name == 'image'%}
+                    {% if product.image.file is not None %}
                     <img class="image rounded my-2" src="{{product.image.url}}"/>
+                    {% else %}
+                    <img class="image rounded my-2" src="{% static 'images/gt_ph.jpg' %}"/>
+                    {% endif %}
                   {% endif %}
                   <div class="form-group">
                     {{ field.label_tag }}

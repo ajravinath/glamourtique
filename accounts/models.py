@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 from safedelete.models import SafeDeleteModel
 from safedelete.models import SOFT_DELETE
-
+from PIL import Image
 # Create your models here.
 
 
@@ -33,13 +33,24 @@ class Product(SafeDeleteModel):
     CATEGORY = ((
         'Earings', 'Earings',
     ), ('Accessory', 'Accessory'))
-    image = models.ImageField(default="gt_ph.jpg", null=True, blank=True)
+    image = models.ImageField(null=True, blank=True)
     name = models.CharField(max_length=200, null=True)
     price = models.FloatField(null=True)
     description = models.CharField(max_length=200, null=True)
     category = models.CharField(max_length=200, null=True, choices=CATEGORY)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     tags = models.ManyToManyField(Tag)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        img = Image.open(self.image.path)
+        '''
+        resize to 300x300 if larger
+        '''
+        if(img.height > 300 or img.width > 300):
+            output_size = (300, 300)
+            img.thumbnail(output_size)
+            img.save(self.image.path)
 
     def __str__(self):
         return self.name

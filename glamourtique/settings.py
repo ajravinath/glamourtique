@@ -160,7 +160,6 @@ USE_TZ = True
 SAFE_DELETE_INTERPRET_UNDELETED_OBJECTS_AS_CREATED = True
 #
 
-print('tttttttttttt', env.bool('USE_S3', default=False))
 # S3 bucket settings
 
 if(env.bool('USE_S3', default=False)):
@@ -179,15 +178,14 @@ if(env.bool('USE_S3', default=False)):
 else:
     STATIC_URL = '/static/'
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    MEDIA_URL = '/images/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 # STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
-
-# MEDIA_URL = '/images/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
 
 # SMPT Configuration
