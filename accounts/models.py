@@ -55,6 +55,7 @@ class Product(SafeDeleteModel):
                     img.thumbnail(output_size)
                     img.save(self.image.path)
         except Exception as e:
+            print('Failed to upload to ftp: ' + str(e))
             logger.error('Failed to upload to ftp: ' + str(e))
 
     def __str__(self):
