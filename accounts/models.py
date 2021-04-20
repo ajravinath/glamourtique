@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
 
 from safedelete.models import SafeDeleteModel
 from safedelete.models import SOFT_DELETE
@@ -40,22 +41,6 @@ class Product(SafeDeleteModel):
     category = models.CharField(max_length=200, null=True, choices=CATEGORY)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
     tags = models.ManyToManyField(Tag)
-
-    def save(self, *args, **kwargs):
-        try:
-            super().save(*args, **kwargs)
-            if self.image:
-                img = Image.open(self.image.path)
-                '''
-                resize to 300x300 if larger
-                '''
-                if(img.height > 300 or img.width > 300):
-                    output_size = (300, 300)
-                    img.thumbnail(output_size)
-                    img.save(self.image.name)
-        except Exception as e:
-            print('Failed to upload to ftp: ' + str(e))
-            logger.error('Failed to upload to ftp: ' + str(e))
 
     def __str__(self):
         return self.name

@@ -177,17 +177,18 @@ USE_TZ = True
 SAFE_DELETE_INTERPRET_UNDELETED_OBJECTS_AS_CREATED = True
 #
 
-# S3 bucket settings
+USE_S3 = env.bool('USE_S3', default=False)
 
+# S3/Static bucket settings
 if(env.bool('USE_S3', default=False)):
     AWS_ACCESS_KEY_ID = env.str('AWS_ACCESS_KEY_ID')
     AWS_SECRET_ACCESS_KEY = env.str('AWS_SECRET_ACCESS_KEY')
     AWS_STORAGE_BUCKET_NAME = env.str('AWS_STORAGE_BUCKET_NAME')
     AWS_DEFAULT_ACL = None
     AWS_S3_CUSTOM_DOMAIN = env.str('AWS_S3_CUSTOM_DOMAIN')
-    AWS_S3_ENDPOINT_URL = env.str('AWS_S3_ENDPOINT_URL')
     AWS_S3_FILE_OVERWRITE = env.bool('AWS_S3_FILE_OVERWRITE')
-    AWS_STATIC_LOCATION = env.str('AWS_STATIC_LOCATION')
+    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+    AWS_DEFAULT_ACL = env.str('AWS_DEFAULT_ACL')
 
     STATIC_URL = "https://%s/" % (AWS_S3_CUSTOM_DOMAIN)
     STATICFILES_STORAGE = env.str('STATICFILES_STORAGE')
@@ -195,6 +196,7 @@ if(env.bool('USE_S3', default=False)):
 else:
     STATIC_URL = '/static/'
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
     MEDIA_URL = '/images/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
